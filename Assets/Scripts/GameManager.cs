@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause() 
     {
+        TitleScreen.SetActive(true);
         Time.timeScale = 0f;
         player.enabled = false;
         obstacleSpawner.enabled = false;
@@ -37,21 +38,18 @@ public class GameManager : MonoBehaviour
 
     public void Play() {
         score = 0;
-        scoreText.text = score.ToString();
-
         player.transform.position = Vector2.zero;
-
-        TitleScreen.SetActive(false);
-
-        Time.timeScale = 1f;
+        scoreText.text = "Score:0";
         player.enabled = true;
         obstacleSpawner.enabled = true;
+        Time.timeScale = 1f;
 
         Obsticle[] obsticles = FindObjectsOfType<Obsticle>();
-
         for (int i = 0; i <  obsticles.Length; i++) {
-            Destroy( obsticles[i].gameObject);
+            Destroy(obsticles[i].gameObject);
         }
+
+        TitleScreen.SetActive(false);
 
         for(int i = 0; i < gameControls.Length; i++) {
             gameControls[i].SetActive(true);
@@ -60,10 +58,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() 
     {
-        TitleScreen.SetActive(true);
         Pause();
-
-        Debug.Log("game over");
 
         int highScore = PlayerPrefs.GetInt("highScore", 0);
     

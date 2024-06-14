@@ -1182,7 +1182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 1054292869422544060, guid: b1ea74c239570384dad428e6e37eed97, type: 3}
   player: {fileID: 128640610}
-  spawnDelay: 1.8
+  spawnDistance: 50
 --- !u!4 &1601416518
 Transform:
   m_ObjectHideFlags: 0
@@ -1434,7 +1434,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 120}
-  m_LocalScale: {x: 14, y: 1, z: 300}
+  m_LocalScale: {x: 13, y: 1, z: 300}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
