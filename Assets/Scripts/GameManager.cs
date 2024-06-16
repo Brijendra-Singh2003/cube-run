@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private int score = 0;
     public Text scoreText;
+    public Text speedText;
     public Text highScoreText;
     public GameObject playButton;
     public GameObject pauseButton;
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() 
     {
+        TitleScreen.GetComponentInChildren<Text>().text = "Retry";
         Pause();
 
         int highScore = PlayerPrefs.GetInt("highScore", 0);
@@ -72,5 +74,9 @@ public class GameManager : MonoBehaviour
     {
         this.score = score;
         scoreText.text = "Score:" + score;
+    }
+    public void SetSpeedText(int speed) 
+    {
+        speedText.text = "Speed:" + speed + "km/h";
     }
 }

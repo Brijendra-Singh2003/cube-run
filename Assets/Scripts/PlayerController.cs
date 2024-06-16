@@ -89,6 +89,7 @@ public class playerController : MonoBehaviour
         rigidbody.velocity = velocity;
 
         gameManager.PlayerScores(((int)transform.position.z));
+        gameManager.SetSpeedText(((int) (speed * 18 / 5)));
     }
 
     private void OnCollisionEnter(Collision other)

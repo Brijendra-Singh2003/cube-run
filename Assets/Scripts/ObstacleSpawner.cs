@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObstacleSpawner : MonoBehaviour
@@ -5,8 +6,9 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject obstaclePrefab;
     public Transform player;
     public float spawnDistance;
+    private float spawnLocation;
     private float prevZ;
-    // private readonly GameObject[] objects = new GameObject[7];
+    private readonly GameObject[] objects = new GameObject[5];
 
     private void OnEnable() {
         // InvokeRepeating(nameof(Spawn), spawnDelay, spawnDelay);
@@ -17,8 +19,17 @@ public class ObstacleSpawner : MonoBehaviour
         CancelInvoke(nameof(Spawn));
     }
 
-    private void Update() {
-        if(prevZ + spawnDistance < player.position.z) {
+    private void FixedUpdate() {
+        spawnLocation = transform.position.z + player.transform.position.z;
+
+        for(int i=0; i<5; i++) {
+            if(objects[i] != null && !objects[i].IsDestroyed()){
+                float p = objects[i].transform.position.z;
+                if(p > prevZ) prevZ = p;
+            }
+        }
+
+        if(prevZ + spawnDistance < spawnLocation) {
             prevZ = player.position.z;
             Spawn();
         }
@@ -26,15 +37,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Spawn() {
 
-        Instantiate(obstaclePrefab, new(-1.875f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new( 1.875f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new(-5.625f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new( 5.625f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new(-3.75f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new( 3.75f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-        Instantiate(obstaclePrefab, new( 0f, 1.5f, transform.position.z + prevZ), Quaternion.identity);
-
-        // int a = Random.Range(0, 7);
-        // Destroy(objects[a].gameObject);
+        objects[0] = Instantiate(obstaclePrefab, new(-2.4f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[1] = Instantiate(obstaclePrefab, new( 2.4f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[2] = Instantiate(obstaclePrefab, new(-4.8f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[3] = Instantiate(obstaclePrefab, new( 4.8f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[4] = Instantiate(obstaclePrefab, new( 0f, 1.5f, spawnLocation), Quaternion.identity);
     }
 }
