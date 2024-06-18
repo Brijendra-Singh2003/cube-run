@@ -7,6 +7,7 @@ public class playerController : MonoBehaviour
     public float topSpeed;
     public float minSpeed;
     public GameManager gameManager;
+    
     private float speed;
     private float direction;
     private new Rigidbody rigidbody;
@@ -28,55 +29,42 @@ public class playerController : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y < -10 || (!isAlive && rigidbody.velocity.Equals(Vector3.zero))) GameOver();
-
-        if (Input.GetKey(KeyCode.A))
+        if (transform.position.y < -10 || (!isAlive && rigidbody.velocity == Vector3.zero))
         {
-            MoveLeft();
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            MoveRight();
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            Accelerate();
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            Decelerate();
+            GameOver();
+            return;
         }
 
-        direction -= direction * 4 * Time.deltaTime;
+        if (isAlive)
+        {
+            direction += Input.acceleration.x * handling * speed * Time.deltaTime;
+        }
+
+        direction -= direction * 12f * Time.deltaTime;
+
         if (speed > minSpeed)
             speed -= speed * 0.2f * Time.deltaTime;
-    }
-
-    public void MoveLeft()
-    {
-        if (isAlive)
-            direction -= (handling - direction) * Time.deltaTime * (speed + minSpeed) / 48;
-    }
-    public void MoveRight()
-    {
-        if (isAlive)
-            direction += (handling - direction) * Time.deltaTime * (speed + minSpeed) / 48;
     }
 
     public void Accelerate()
     {
         if (speed < topSpeed && isAlive)
+        {
             speed += acceleration * Time.deltaTime;
+        }
     }
+
     public void Decelerate()
     {
         if (speed > minSpeed && isAlive)
+        {
             speed -= speed * Time.deltaTime;
+        }
     }
 
     private void FixedUpdate()
     {
-        if(!isAlive) return;
+        if (!isAlive) return;
 
         Vector3 angle = transform.rotation.eulerAngles;
         Vector3 velocity = rigidbody.velocity;
@@ -88,13 +76,17 @@ public class playerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(angle);
         rigidbody.velocity = velocity;
 
-        gameManager.PlayerScores(((int)transform.position.z));
-        gameManager.SetSpeedText(((int) (speed * 18 / 5)));
+        if (speed > 17.5f)
+        {
+            gameManager.PlayerScores((int)transform.position.z);
+        }
+
+        gameManager.SetSpeedText((int)(speed * 18 / 5));
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Obstacle" && isAlive)
+        if (other.gameObject.CompareTag("Obstacle") && isAlive)
         {
             isAlive = false;
         }

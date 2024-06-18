@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
     public ObstacleSpawner obstacleSpawner;
     public GameObject[] gameControls;
     public playerController player;
+    private bool isGameOver = true;
 
     private void Awake()
     {
+        player.enabled = false;
         Pause();
         Application.targetFrameRate = 60;
     }
@@ -29,7 +31,6 @@ public class GameManager : MonoBehaviour
     {
         TitleScreen.SetActive(true);
         Time.timeScale = 0f;
-        player.enabled = false;
         obstacleSpawner.enabled = false;
 
         for(int i = 0; i < gameControls.Length; i++) {
@@ -38,17 +39,23 @@ public class GameManager : MonoBehaviour
     }
 
     public void Play() {
-        score = 0;
-        player.transform.position = Vector2.zero;
-        scoreText.text = "Score:0";
-        player.enabled = true;
+        if(isGameOver) {
+            score = 0;
+            player.transform.position = Vector2.zero;
+            scoreText.text = "Score:0";
+            TitleScreen.GetComponentInChildren<Text>().text = "Resume";
+            player.enabled = true;
+
+            Obsticle[] obsticles = FindObjectsOfType<Obsticle>();
+            for (int i = 0; i <  obsticles.Length; i++) {
+                Destroy(obsticles[i].gameObject);
+            }
+
+            isGameOver = false;
+        }
+
         obstacleSpawner.enabled = true;
         Time.timeScale = 1f;
-
-        Obsticle[] obsticles = FindObjectsOfType<Obsticle>();
-        for (int i = 0; i <  obsticles.Length; i++) {
-            Destroy(obsticles[i].gameObject);
-        }
 
         TitleScreen.SetActive(false);
 
@@ -59,7 +66,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() 
     {
+        isGameOver = true;
         TitleScreen.GetComponentInChildren<Text>().text = "Retry";
+        player.enabled = false;
         Pause();
 
         int highScore = PlayerPrefs.GetInt("highScore", 0);
