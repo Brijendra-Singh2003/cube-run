@@ -10,10 +10,10 @@ public class Obsticle : MonoBehaviour
         speed = Random.value * (maxSpeed - minSpeed) + minSpeed;
     }
     private void FixedUpdate() {
-        transform.position += Vector3.forward * speed * Time.deltaTime;
+        transform.position += speed * Time.deltaTime * Vector3.forward;
 
         if(transform.position.y < 0) {
-            Destroy(this.gameObject);
+            DestroySelf();
         }
     }
 
@@ -23,5 +23,13 @@ public class Obsticle : MonoBehaviour
         if(obsticle != null) {
             speed = obsticle.speed;
         }
+    }
+
+    public void OnHit() {
+        Invoke(nameof(DestroySelf), 1f);
+    }
+
+    private void DestroySelf() {
+        Destroy(this.gameObject);
     }
 }

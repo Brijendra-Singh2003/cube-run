@@ -7,6 +7,6 @@ public class cameraController : MonoBehaviour
     public float stiffness;
 
     private void FixedUpdate() {
-        transform.position += (target.position + offset - transform.position) * stiffness * Time.deltaTime;
+        transform.position += stiffness * Time.deltaTime * (target.position + offset - transform.position);
     }
 }

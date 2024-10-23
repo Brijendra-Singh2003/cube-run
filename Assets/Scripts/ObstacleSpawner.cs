@@ -37,10 +37,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void Spawn() {
 
-        objects[0] = Instantiate(obstaclePrefab, new(-2.4f, 1.5f, spawnLocation), Quaternion.identity);
-        objects[1] = Instantiate(obstaclePrefab, new( 2.4f, 1.5f, spawnLocation), Quaternion.identity);
-        objects[2] = Instantiate(obstaclePrefab, new(-4.8f, 1.5f, spawnLocation), Quaternion.identity);
-        objects[3] = Instantiate(obstaclePrefab, new( 4.8f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[0] = Instantiate(obstaclePrefab, new(-2f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[1] = Instantiate(obstaclePrefab, new( 2f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[2] = Instantiate(obstaclePrefab, new(-4f, 1.5f, spawnLocation), Quaternion.identity);
+        objects[3] = Instantiate(obstaclePrefab, new( 4f, 1.5f, spawnLocation), Quaternion.identity);
         objects[4] = Instantiate(obstaclePrefab, new( 0f, 1.5f, spawnLocation), Quaternion.identity);
     }
 }

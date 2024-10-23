@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject TitleScreen;
     public ObstacleSpawner obstacleSpawner;
     public GameObject[] gameControls;
-    public playerController player;
+    public PlayerController player;
     private bool isGameOver = true;
 
     private void Awake()
